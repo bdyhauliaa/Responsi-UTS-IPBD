@@ -1,0 +1,9 @@
+selenium
+fastapi
+uvicorn
+pandas
+requests
+psycopg2-binary
+sqlalchemy
+apache-airflow
+python-dotenv

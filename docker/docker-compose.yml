@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: wired_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wired
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  airflow:
+    image: apache/airflow:2.9.1
+    container_name: airflow
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+    volumes:
+      - ../dags:/opt/airflow/dags
+      - ..:/opt/airflow/app
+    ports:
+      - "8080:8080"
+    command: >
+      bash -c "
+      airflow db init &&
+      airflow users create --username admin --password admin --firstname user --lastname user --role Admin --email admin@example.com &&
+      airflow webserver & airflow scheduler
+      "
+
+volumes:
+  postgres_data:
