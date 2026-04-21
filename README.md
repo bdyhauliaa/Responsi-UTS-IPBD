@@ -16,7 +16,7 @@ Project ini membangun alur data end-to-end:
 ## Project Structure
 
 ```text
-Responsi-IPBD/
+Responsi-UTS-IPBD/
 ├── app/
 │   ├── api/            # FastAPI endpoint
 │   ├── db/             # Koneksi & query database
